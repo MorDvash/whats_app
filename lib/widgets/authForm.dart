@@ -15,28 +15,34 @@ class _AuthFormState extends State<AuthForm> {
         child: SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.all(16),
-            child: Form(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  TextFormField(
-                    keyboardType: TextInputType.emailAddress,
-                    decoration: InputDecoration(labelText: 'Email Address'),
-                  ),
-                  TextFormField(
-                    decoration: InputDecoration(labelText: 'UserName'),
-                  ),
-                  TextFormField(
-                    keyboardType: TextInputType.emailAddress,
-                    decoration: InputDecoration(labelText: 'Password'),
-                    obscureText: true,
-                  ),
-                  SizedBox(height: 12),
-                  CupertinoButton(child: Text('Login'), onPressed: () {}),
-                  CupertinoButton.filled(
-                      child: Text('Create new account'), onPressed: () {}),
-                ],
-              ),
+            child: Column(
+              children: [
+                CupertinoFormSection(
+                  children: [
+                    CupertinoFormRow(
+                      child: CupertinoTextFormFieldRow(
+                        placeholder: 'Email Address',
+                        keyboardType: TextInputType.emailAddress,
+                      ),
+                    ),
+                    CupertinoFormRow(
+                      child: CupertinoTextFormFieldRow(
+                        placeholder: 'UserName',
+                      ),
+                    ),
+                    CupertinoFormRow(
+                      child: CupertinoTextFormFieldRow(
+                        placeholder: 'Password',
+                        obscureText: true,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 12),
+                CupertinoButton(child: Text('Login'), onPressed: () {}),
+                CupertinoButton.filled(
+                    child: Text('Create new account'), onPressed: () {}),
+              ],
             ),
           ),
         ),
