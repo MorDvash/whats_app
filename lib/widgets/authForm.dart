@@ -2,6 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class AuthForm extends StatefulWidget {
+  final Function _submitAuth;
+
+  AuthForm(this._submitAuth);
+
   @override
   _AuthFormState createState() => _AuthFormState();
 }
@@ -19,9 +23,7 @@ class _AuthFormState extends State<AuthForm> {
 
     if (isValid) {
       _formKey.currentState!.save();
-      print(_email);
-      print(_userName);
-      print(_password);
+      widget._submitAuth(_email, _password, _userName, _isLogin, context);
     }
   }
 
