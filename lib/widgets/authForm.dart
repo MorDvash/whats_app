@@ -7,6 +7,24 @@ class AuthForm extends StatefulWidget {
 }
 
 class _AuthFormState extends State<AuthForm> {
+  final _formKey = GlobalKey<FormState>();
+  var _isLogin = true;
+  var _email = '';
+  var _userName = '';
+  var _password = '';
+
+  void _login() {
+    bool isValid = _formKey.currentState!.validate();
+    FocusScope.of(context).unfocus();
+
+    if (isValid) {
+      _formKey.currentState!.save();
+      print(_email);
+      print(_userName);
+      print(_password);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -15,34 +33,72 @@ class _AuthFormState extends State<AuthForm> {
         child: SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.all(16),
-            child: Column(
-              children: [
-                CupertinoFormSection(
-                  children: [
-                    CupertinoFormRow(
-                      child: CupertinoTextFormFieldRow(
-                        placeholder: 'Email Address',
-                        keyboardType: TextInputType.emailAddress,
+            child: Form(
+              key: _formKey,
+              child: Column(
+                children: [
+                  CupertinoFormSection(
+                    header: Text(_isLogin ? 'SignIn' : 'SignUp'),
+                    children: [
+                      CupertinoFormRow(
+                        child: CupertinoTextFormFieldRow(
+                          key: ValueKey('email'),
+                          validator: (value) {
+                            if (value!.isEmpty || !value.contains('@')) {
+                              return 'Please enter valid email';
+                            }
+                            return null;
+                          },
+                          placeholder: 'Email Address',
+                          keyboardType: TextInputType.emailAddress,
+                          onSaved: (value) => _email = value as String,
+                        ),
                       ),
-                    ),
-                    CupertinoFormRow(
-                      child: CupertinoTextFormFieldRow(
-                        placeholder: 'UserName',
+                      if (!_isLogin)
+                        CupertinoFormRow(
+                          child: CupertinoTextFormFieldRow(
+                            key: ValueKey('userName'),
+                            validator: (value) {
+                              if (value!.isEmpty || value.length < 2) {
+                                return 'Please enter name with at least 2 characters';
+                              }
+                              return null;
+                            },
+                            placeholder: 'UserName',
+                            onSaved: (value) => _userName = value as String,
+                          ),
+                        ),
+                      CupertinoFormRow(
+                        child: CupertinoTextFormFieldRow(
+                          key: ValueKey('password'),
+                          validator: (value) {
+                            if (value!.isEmpty || value.length < 7) {
+                              return 'Please enter password with at least 7 characters';
+                            }
+                            return null;
+                          },
+                          placeholder: 'Password',
+                          obscureText: true,
+                          onSaved: (value) => _password = value as String,
+                        ),
                       ),
-                    ),
-                    CupertinoFormRow(
-                      child: CupertinoTextFormFieldRow(
-                        placeholder: 'Password',
-                        obscureText: true,
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 12),
-                CupertinoButton(child: Text('Login'), onPressed: () {}),
-                CupertinoButton.filled(
-                    child: Text('Create new account'), onPressed: () {}),
-              ],
+                    ],
+                  ),
+                  SizedBox(height: 12),
+                  CupertinoButton(
+                      child: Text(_isLogin ? 'Login' : 'SignUp'),
+                      onPressed: _login),
+                  CupertinoButton.filled(
+                      child: Text(_isLogin
+                          ? 'Create new account'
+                          : 'I have already account'),
+                      onPressed: () {
+                        setState(() {
+                          _isLogin = !_isLogin;
+                        });
+                      }),
+                ],
+              ),
             ),
           ),
         ),

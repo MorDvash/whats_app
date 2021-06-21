@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:whats_app/screens/authScreen.dart';
 
 void main() async {
@@ -14,6 +15,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return CupertinoApp(
       title: 'Flutter Demo',
+      theme: CupertinoThemeData(
+          // primaryColor: Colors.amberAccent,
+          // barBackgroundColor: Colors.black45,
+          // scaffoldBackgroundColor: Colors.black12,
+          // primaryContrastingColor: Colors.white,
+          ),
       home: AuthScreen(),
     );
   }
