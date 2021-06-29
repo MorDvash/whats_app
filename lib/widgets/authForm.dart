@@ -32,7 +32,7 @@ class _AuthFormState extends State<AuthForm> {
   Widget build(BuildContext context) {
     return Center(
       child: widget._isLoading
-          ? CircularProgressIndicator()
+          ? CupertinoActivityIndicator()
           : Card(
               margin: EdgeInsets.all(20),
               child: SingleChildScrollView(

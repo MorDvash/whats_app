@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:whats_app/screens/settings.dart';
 
 class ChatScreen extends StatelessWidget {
   @override
@@ -17,6 +18,15 @@ class ChatScreen extends StatelessWidget {
             },
             child: Icon(
               CupertinoIcons.add,
+            ),
+          ),
+          leading: CupertinoButton(
+            padding: EdgeInsets.zero,
+            onPressed: () {
+              Navigator.of(context).pushNamed(SettingsPage.routeName);
+            },
+            child: Icon(
+              CupertinoIcons.person_alt_circle,
             ),
           ),
         ),

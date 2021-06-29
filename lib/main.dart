@@ -1,7 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:whats_app/screens/authScreen.dart';
+import 'package:whats_app/screens/chatScreen.dart';
+import 'package:whats_app/screens/settings.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,7 +29,18 @@ class MyApp extends StatelessWidget {
           // scaffoldBackgroundColor: Colors.black12,
           // primaryContrastingColor: Colors.white,
           ),
-      home: AuthScreen(),
+      home: StreamBuilder(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (context, userSnapShot) {
+          if (userSnapShot.hasData) {
+            return ChatScreen();
+          }
+          return AuthScreen();
+        },
+      ),
+      routes: {
+        SettingsPage.routeName: (context) => SettingsPage(),
+      },
     );
   }
 }
