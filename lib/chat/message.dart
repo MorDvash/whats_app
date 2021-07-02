@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:whats_app/chat/messageBubble.dart';
@@ -21,8 +22,11 @@ class Messages extends StatelessWidget {
         }
         return ListView.builder(
           itemCount: snapshot.data!.docs.length,
-          itemBuilder: (context, index) =>
-              MessageBubble(snapshot.data!.docs[index]['text']),
+          itemBuilder: (context, index) => MessageBubble(
+            snapshot.data!.docs[index]['text'],
+            snapshot.data!.docs[index]['userUid'] ==
+                FirebaseAuth.instance.currentUser!.uid,
+          ),
         );
       },
     );
