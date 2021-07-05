@@ -27,9 +27,10 @@ class _AuthScreenState extends State<AuthScreen> {
           email: email,
           password: password,
         );
-        await firebase_storage.FirebaseStorage.instance
-            .ref('userImage/${userCredential.user!.uid}.jpg')
-            .putFile(userImageFile);
+        final ref = firebase_storage.FirebaseStorage.instance
+            .ref('userImage/${userCredential.user!.uid}.jpg');
+        await ref.putFile(userImageFile);
+        final url = ref.getDownloadURL();
 
         FirebaseFirestore.instance
             .collection('users')
@@ -37,6 +38,7 @@ class _AuthScreenState extends State<AuthScreen> {
             .set({
           "email": email,
           "userName": userName,
+          "urlImage": url,
         });
       } else {
         UserCredential userCredential =
