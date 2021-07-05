@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:whats_app/widgets/pickerImage.dart';
 
 class AuthForm extends StatefulWidget {
   final Function _submitAuth;
@@ -42,6 +43,7 @@ class _AuthFormState extends State<AuthForm> {
                     key: _formKey,
                     child: Column(
                       children: [
+                        if (!_isLogin) PickerImage(),
                         CupertinoFormSection(
                           header: Text(_isLogin ? 'SignIn' : 'SignUp'),
                           children: [
