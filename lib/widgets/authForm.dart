@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:whats_app/widgets/pickerImage.dart';
@@ -18,11 +20,34 @@ class _AuthFormState extends State<AuthForm> {
   var _email = '';
   var _userName = '';
   var _password = '';
+  File? _userImageFile;
+
+  void _pickedImage(File image) {
+    _userImageFile = image;
+  }
 
   void _login() {
     bool isValid = _formKey.currentState!.validate();
     FocusScope.of(context).unfocus();
 
+    if (_userImageFile == null && !_isLogin) {
+      showDialog(
+          context: context,
+          builder: (BuildContext ctx) => new CupertinoAlertDialog(
+                title: new Text("Alert"),
+                content: new Text('Please pick an image'),
+                actions: [
+                  CupertinoDialogAction(
+                    isDefaultAction: true,
+                    child: new Text("Okey"),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  )
+                ],
+              ));
+      return;
+    }
     if (isValid) {
       _formKey.currentState!.save();
       widget._submitAuth(_email, _password, _userName, _isLogin, context);
@@ -43,7 +68,7 @@ class _AuthFormState extends State<AuthForm> {
                     key: _formKey,
                     child: Column(
                       children: [
-                        if (!_isLogin) PickerImage(),
+                        if (!_isLogin) PickerImage(_pickedImage),
                         CupertinoFormSection(
                           header: Text(_isLogin ? 'SignIn' : 'SignUp'),
                           children: [

@@ -55,19 +55,21 @@ class _AuthScreenState extends State<AuthScreen> {
         _isLoading = false;
       });
       showDialog(
-          context: ctx,
-          builder: (BuildContext ctx) => new CupertinoAlertDialog(
-                  title: new Text("Alert"),
-                  content: new Text(errorMessage),
-                  actions: [
-                    CupertinoDialogAction(
-                      isDefaultAction: true,
-                      child: new Text("Okey"),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                    )
-                  ]));
+        context: ctx,
+        builder: (BuildContext ctx) => new CupertinoAlertDialog(
+          title: new Text("Alert"),
+          content: new Text(errorMessage),
+          actions: [
+            CupertinoDialogAction(
+              isDefaultAction: true,
+              child: new Text("Okey"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            )
+          ],
+        ),
+      );
     } catch (e) {
       setState(() {
         _isLoading = false;
