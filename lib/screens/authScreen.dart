@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:whats_app/widgets/authForm.dart';
@@ -13,7 +16,7 @@ class _AuthScreenState extends State<AuthScreen> {
   var _isLoading = false;
 
   Future<void> _submitAuth(String email, String password, String userName,
-      bool isLogin, BuildContext ctx) async {
+      File userImageFile, bool isLogin, BuildContext ctx) async {
     try {
       setState(() {
         _isLoading = true;
@@ -24,6 +27,10 @@ class _AuthScreenState extends State<AuthScreen> {
           email: email,
           password: password,
         );
+        await firebase_storage.FirebaseStorage.instance
+            .ref('userImage/${userCredential.user!.uid}.jpg')
+            .putFile(userImageFile);
+
         FirebaseFirestore.instance
             .collection('users')
             .doc('${userCredential.user!.uid}')
